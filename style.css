@@ -1,0 +1,414 @@
+/* ====== GLOBAL RESET & BASE ====== */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Inter", sans-serif;
+    background: radial-gradient(circle at top, #1d4ed8 0, #020617 40%, #000 100%);
+    color: #e5e7eb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 16px;
+    overflow-x: hidden;
+}
+
+/* ====== MAIN LAYOUT ====== */
+body > form,
+body > h1,
+#task-list {
+    /* układamy wszystko w kolumnie, ale ładnie centrowane */
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+}
+
+/* Wrapper na formularz i listę (tworzymy pseudo-kartę) */
+form,
+#task-list {
+    width: 100%;
+    max-width: 520px;
+}
+
+/* ====== CARD / GLASSMORPHISM ====== */
+fieldset {
+    border: 1px solid rgba(148, 163, 184, 0.4);
+    border-radius: 20px;
+    padding: 26px 24px 22px;
+    background: linear-gradient(135deg, rgba(15,23,42,0.85), rgba(15,23,42,0.6));
+    box-shadow:
+        0 18px 45px rgba(15,23,42,0.9),
+        0 0 0 1px rgba(148,163,184,0.25);
+    backdrop-filter: blur(18px);
+    position: relative;
+    overflow: hidden;
+}
+
+/* dekoracyjne gradienty w tle */
+fieldset::before,
+fieldset::after {
+    content: "";
+    position: absolute;
+    border-radius: 999px;
+    filter: blur(40px);
+    opacity: 0.7;
+    pointer-events: none;
+    mix-blend-mode: screen;
+}
+
+fieldset::before {
+    width: 220px;
+    height: 220px;
+    background: radial-gradient(circle, #38bdf8, transparent 60%);
+    top: -80px;
+    right: -60px;
+    animation: floatOrb1 12s ease-in-out infinite alternate;
+}
+
+fieldset::after {
+    width: 260px;
+    height: 260px;
+    background: radial-gradient(circle, #a855f7, transparent 60%);
+    bottom: -120px;
+    left: -80px;
+    animation: floatOrb2 16s ease-in-out infinite alternate;
+}
+
+/* ====== TYPOGRAPHY ====== */
+h1 {
+    text-align: center;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #e5e7eb;
+    position: relative;
+    z-index: 1;
+}
+
+form h1 {
+    font-size: 1.1rem;
+    margin-bottom: 18px;
+}
+
+body > h1 {
+    font-size: 1.4rem;
+    margin-top: 4px;
+    text-shadow: 0 0 18px rgba(59,130,246,0.7);
+}
+
+/* mała linia pod tytułem */
+body > h1::after {
+    content: "";
+    display: block;
+    width: 80px;
+    height: 3px;
+    margin: 10px auto 0;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #38bdf8, #a855f7, #f97316);
+}
+
+/* ====== FORM LAYOUT ====== */
+form p {
+    margin: 0;
+}
+
+form p + p {
+    margin-top: 12px;
+}
+
+/* flex na input + button, gdybyś kiedyś zmienił HTML na jeden wiersz */
+fieldset > p {
+    display: flex;
+}
+
+/* ====== INPUT TEXT ====== */
+input[type="text"] {
+    flex: 1;
+    padding: 14px 16px;
+    border-radius: 12px;
+    border: 1px solid rgba(148,163,184,0.5);
+    background: rgba(15,23,42,0.9);
+    color: #e5e7eb;
+    font-size: 0.98rem;
+    outline: none;
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease,
+        transform 0.15s ease;
+    position: relative;
+    z-index: 1;
+}
+
+input[type="text"]::placeholder {
+    color: rgba(148,163,184,0.8);
+}
+
+input[type="text"]:focus {
+    border-color: #38bdf8;
+    box-shadow:
+        0 0 0 1px rgba(56,189,248,0.6),
+        0 0 25px rgba(56,189,248,0.35);
+    background: rgba(15,23,42,0.95);
+    transform: translateY(-1px);
+}
+
+/* ====== BUTTON ====== */
+input[type="button"] {
+    width: 100%;
+    padding: 14px 16px;
+    border-radius: 12px;
+    border: none;
+    margin-top: 10px;
+    background: conic-gradient(from 180deg, #38bdf8, #a855f7, #f97316, #22c55e, #38bdf8);
+    color: #020617;
+    font-weight: 800;
+    font-size: 1rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition:
+        transform 0.18s ease,
+        box-shadow 0.18s ease,
+        filter 0.18s ease;
+}
+
+/* glow pod przyciskiem */
+input[type="button"]::before {
+    content: "";
+    position: absolute;
+    inset: 2px;
+    border-radius: inherit;
+    background: linear-gradient(135deg, #e0f2fe, #f5f3ff);
+    z-index: -1;
+}
+
+input[type="button"]::after {
+    content: "➕";
+    font-size: 1.1rem;
+    opacity: 0.9;
+}
+
+input[type="button"]:hover {
+    transform: translateY(-2px) scale(1.01);
+    box-shadow:
+        0 18px 40px rgba(56,189,248,0.45),
+        0 0 40px rgba(168,85,247,0.35);
+    filter: brightness(1.05);
+}
+
+input[type="button"]:active {
+    transform: translateY(0) scale(0.99);
+    box-shadow: 0 8px 20px rgba(15,23,42,0.8);
+}
+
+/* ====== TASK LIST WRAPPER ====== */
+#task-list {
+    list-style: none;
+    width: 100%;
+    max-width: 520px;
+    margin: 0 auto;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    position: relative;
+}
+
+/* delikatna pionowa linia prowadząca */
+#task-list::before {
+    content: "";
+    position: absolute;
+    left: 10px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, transparent, rgba(148,163,184,0.6), transparent);
+    opacity: 0.6;
+}
+
+/* ====== TASK ITEM ====== */
+#task-list li {
+    position: relative;
+    margin-left: 26px;
+    padding: 12px 14px 12px 18px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, rgba(15,23,42,0.95), rgba(15,23,42,0.8));
+    border: 1px solid rgba(148,163,184,0.45);
+    color: #e5e7eb;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    box-shadow:
+        0 10px 26px rgba(15,23,42,0.9),
+        0 0 0 1px rgba(15,23,42,0.9);
+    overflow: hidden;
+    transform-origin: left center;
+    animation: taskEnter 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* kropka / bullet z lewej */
+#task-list li::before {
+    content: "";
+    position: absolute;
+    left: -16px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 11px;
+    height: 11px;
+    border-radius: 999px;
+    background: radial-gradient(circle, #22c55e, #16a34a);
+    box-shadow:
+        0 0 0 3px rgba(34,197,94,0.35),
+        0 0 18px rgba(34,197,94,0.7);
+}
+
+/* gradientowy highlight przy hover */
+#task-list li::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(120deg, rgba(56,189,248,0.18), transparent 40%, transparent 60%, rgba(168,85,247,0.18));
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+}
+
+#task-list li:hover::after {
+    opacity: 1;
+}
+
+#task-list li:hover {
+    transform: translateX(4px) translateY(-1px);
+    box-shadow:
+        0 18px 40px rgba(15,23,42,0.95),
+        0 0 26px rgba(56,189,248,0.35);
+}
+
+/* tekst zadania */
+#task-list li span,
+#task-list li .task-text {
+    flex: 1;
+    font-size: 0.96rem;
+    line-height: 1.4;
+}
+
+/* ====== DELETE BUTTON ====== */
+.delete-btn {
+    flex-shrink: 0;
+    border: none;
+    border-radius: 999px;
+    padding: 7px 11px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: radial-gradient(circle at top left, #f97316, #ef4444);
+    color: #fef2f2;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    position: relative;
+    overflow: hidden;
+    transition:
+        transform 0.18s ease,
+        box-shadow 0.18s ease,
+        filter 0.18s ease;
+}
+
+.delete-btn::before {
+    content: "✕";
+    font-size: 0.9rem;
+}
+
+.delete-btn::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle, rgba(248,250,252,0.35), transparent 60%);
+    opacity: 0;
+    transition: opacity 0.25s ease;
+}
+
+.delete-btn:hover {
+    transform: translateY(-1px) scale(1.03);
+    box-shadow:
+        0 12px 26px rgba(248,113,113,0.55),
+        0 0 18px rgba(248,113,113,0.7);
+    filter: brightness(1.05);
+}
+
+.delete-btn:hover::after {
+    opacity: 1;
+}
+
+.delete-btn:active {
+    transform: translateY(0) scale(0.97);
+    box-shadow: 0 6px 16px rgba(127,29,29,0.9);
+}
+
+/* ====== SMALL SCREEN TWEAKS ====== */
+@media (max-width: 480px) {
+    fieldset {
+        padding: 20px 16px 18px;
+    }
+
+    body > h1 {
+        font-size: 1.2rem;
+    }
+
+    #task-list li {
+        padding: 10px 12px 10px 16px;
+    }
+}
+
+/* ====== ANIMATIONS ====== */
+@keyframes floatOrb1 {
+    0% {
+        transform: translate3d(0, 0, 0) scale(1);
+    }
+    100% {
+        transform: translate3d(-20px, 30px, 0) scale(1.1);
+    }
+}
+
+@keyframes floatOrb2 {
+    0% {
+        transform: translate3d(0, 0, 0) scale(1);
+    }
+    100% {
+        transform: translate3d(30px, -20px, 0) scale(1.05);
+    }
+}
+
+@keyframes taskEnter {
+    0% {
+        opacity: 0;
+        transform: translateX(-12px) scale(0.96);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+    }
+}
