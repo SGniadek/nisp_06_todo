@@ -1,0 +1,45 @@
+/* ===== PARTICLE BACKGROUND (MAGIC FIREFLIES) ===== */
+
+.fireflies {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* pojedynczy świetlik */
+.firefly {
+    position: absolute;
+    bottom: -40px;
+    width: 8px;
+    height: 8px;
+    background: radial-gradient(circle, #fef9c3, #facc15, transparent);
+    border-radius: 50%;
+    opacity: 0;
+    animation:
+        flyUp linear infinite,
+        glowPulse ease-in-out infinite;
+    filter: blur(1px);
+}
+
+/* animacja lotu do góry */
+@keyframes flyUp {
+    0% {
+        transform: translateY(0) translateX(0) scale(0.6);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-120vh) translateX(var(--x-shift)) scale(1);
+        opacity: 0;
+    }
+}
+
+/* delikatne migotanie */
+@keyframes glowPulse {
+    0%, 100% { filter: blur(1px) brightness(1); }
+    50% { filter: blur(2px) brightness(1.8); }
+}
